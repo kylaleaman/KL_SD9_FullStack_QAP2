@@ -12,6 +12,12 @@ const server = http.createServer((request, response) => {
         case '/contact':
             filePath= 'views/contact.html';
             break;
+        case '/products':
+            filePath= 'views/products.html';
+            break;
+        case '/subscribe':
+            filePath= 'views/subscribe.html';
+            break;
         default:
             response.writeHead(404, {'Content-Type': 'text/plain'});
             response.end('404 Page Not Found');
