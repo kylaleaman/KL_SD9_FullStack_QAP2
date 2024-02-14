@@ -1,28 +1,35 @@
 const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((request, response) => {
     const url = request.url;
+    let filePath = '';
+
     switch (url) {
         case '/about':
-            console.log("About page requested");
-            response.end("About page");
+            filePath = 'views/about.html'
             break;
         case '/contact':
-            console.log("Contact page requested");
-            response.end("Contact page");
-            break;
-        case '/products':
-            console.log("Products page requested");
-            response.end("Products page");
-            break;
-        case '/subscribe':
-            console.log("Subscribe page requested");
-            response.end("Subscribe page");
+            filePath= 'views/contact.html';
             break;
         default:
-            console.log("Unknown page requested");
-            response.end('Unknown page');
+            response.writeHead(404, {'Content-Type': 'text/plain'});
+            response.end('404 Page Not Found');
+            return;
     }
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            response.writeHead(500, { 'Content-Type': 'text/plain' });
+            response.end('Server Error');
+            return;
+        }
+
+        response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.write(data);
+        response.end();
+    })
 });
 
 server.listen(3000, () => {
