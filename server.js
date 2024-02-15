@@ -1,5 +1,7 @@
 const http = require('http');
 const fs = require('fs');
+const EventEmitter = require('events');
+const imdb = require('imdb-api');
 
 const server = http.createServer((request, response) => {
     const url = request.url;
@@ -36,6 +38,7 @@ const server = http.createServer((request, response) => {
         response.write(data);
         response.end();
     })
+
 });
 
 // Capture HTTP status codes
@@ -60,7 +63,6 @@ server.on('error', (error) => {
 // File Successfully Read
 //  - Description: Capture when a file is successfully read
 //  - Event Name: 'fileRead'
-const EventEmitter = require('events');
 const fileEventEmitter = new EventEmitter();
 
 fileEventEmitter.on('fileReadSuccess', (filePath) => {
@@ -86,6 +88,8 @@ fs.readFile(filePath, (error, data) => {
 server.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
+
+
 
 
 
